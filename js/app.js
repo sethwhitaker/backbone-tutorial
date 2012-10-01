@@ -14,7 +14,12 @@
 
     var Contact = Backbone.Model.extend({
       defaults: {
-        photo: "/img/placeholder.png"
+        photo: "/img/placeholder.png",
+        name: "",
+        address: "",
+        tel: "",
+        email: "",
+        type: ""
       }
     });
 
@@ -30,6 +35,17 @@
       render: function(){
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
+      },
+      events : {
+        "click button.delete": "deleteContact"
+      },
+      deleteContact : function(){
+        var removedType = this.model.get("type").toLowerCase();
+        this.model.destroy();
+        this.remove();
+        if(_.indexOf(directory.getTypes(),removedType)== -1){
+          directory.$el.find("#filter select").children("[value='"+removedType+"']").remove();
+        }
       }
     });
 
@@ -42,6 +58,7 @@
         $(this.el).find("#filter").append(this.createSelect());
         this.on("change:filterType", this.filterByType, this);
         this.collection.on("reset", this.render, this);
+        this.collection.on("add", this.renderContact, this);
       },
 
       render: function () {
@@ -101,7 +118,7 @@
 
         }
       },
-      addContact : function(e){
+      /*addContact : function(e){
         e.preventDefault();
         var newModel ={};
         $("#addContact").chidren("input").each(function(i, el){
@@ -109,7 +126,40 @@
             newModel[el.id] = $el.val();
           }
         });
+
+        contacts.push(formData);
+        if (_.indexOf(this.getTypes(), formData.type) === -1) {
+             this.collection.add(new Contact(formData));
+            this.$el.find("#filter").find("select").remove().end().append(this.createSelect());
+        } else {
+            this.collection.add(new Contact(formData));
+        }
+
+      }*/
+
+      addContact: function(e){
+        e.preventDefault();
+        this.collection.reset(contacts, { silent: true });
+        var newModel = {};
+        $('#addContact').children('input').each(function(i, el){
+          if ($(el).val() != ""){
+           newModel[el.id] = $(el).val();
+          }
+        });
+        contacts.push(newModel);
+        this.collection.add(new Contact(newModel));
+        if (_.indexOf(this.getTypes(), newModel.type === -1)){
+          this.$el.find('#filter').find('select').remove().end().append(this.createSelect());
+        }
+        this.filterType = newModel.type.toLowerCase();
+        this.filterByType();
       }
+
+
+
+
+
+
   });
 
 

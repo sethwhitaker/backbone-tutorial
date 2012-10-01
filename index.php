@@ -32,6 +32,7 @@
         <dt>Tel:</dt><dd><%= tel %></dd>
         <dt>Email:</dt><dd><a href="mailto:<%= email %>"><%= email %></a></dd>
     </dl>
+    <button class="delete">Delete</button>
   </script>
 
 
