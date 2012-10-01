@@ -1,5 +1,5 @@
 (function ($) {
- 
+
    //demo data
     var contacts = [
       { name: "Contact 1", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "family" },
@@ -35,7 +35,7 @@
 
     var DirectoryView = Backbone.View.extend({
       el: $("#contacts"),
-   
+
       initialize: function () {
         this.collection = new Directory(contacts);
         this.render();
@@ -43,7 +43,7 @@
         this.on("change:filterType", this.filterByType, this);
         this.collection.on("reset", this.render, this);
       },
-   
+
       render: function () {
         this.$el.find('article').remove();
         var that = this;
@@ -51,7 +51,7 @@
           that.renderContact(item);
         }, this);
       },
-   
+
       renderContact: function (item) {
         var contactView = new ContactView({
           model: item
@@ -87,14 +87,15 @@
       filterByType : function(){
         if(this.filterType === "all"){
           this.collection.reset(contacts);
+          contactsRouter.navigate("filter/all");
         }else{
           this.collection.reset(contacts, {silent:true});
-          
+
           var filterType = this.filterType,
           filtered = _.filter(this.collection.models, function(item){
             return item.get("type").toLowerCase() == filterType;
-          }); 
-          
+          });
+
           this.collection.reset(filtered);
           contactsRouter.navigate("filter/"+filterType);
 
