@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Backbone Test</title>
+  <title>Backbone Demo</title>
   <link rel="stylesheet" type="text/css" href="/css/styles.css">
-  
+
 </head>
 <body>
-    
+
     <div id="contacts">
       <header>
         <div id="filter"><label>Show me:</label></div>
@@ -21,7 +21,7 @@
           <label for="email">Email:</label><input id="email" />
           <button id="add">Add</button>
       </form>
-    </div>   
+    </div>
 
  <!-- Templates -->
  <script id="contactTemplate" type="text/template">
@@ -32,12 +32,13 @@
         <dt>Tel:</dt><dd><%= tel %></dd>
         <dt>Email:</dt><dd><a href="mailto:<%= email %>"><%= email %></a></dd>
     </dl>
+    <button class="delete">Delete</button>
   </script>
 
 
     <script type="text/javascript" src="/js/vendor/jquery.min.js"></script>
     <script type="text/javascript" src="/js/vendor/underscore-min.js"></script>
-    <script type="text/javascript" src="/js/vendor/backbone-min.js"></script>    
+    <script type="text/javascript" src="/js/vendor/backbone-min.js"></script>
     <script type="text/javascript" src="/js/app.js"></script>
 </body>
 </html>
