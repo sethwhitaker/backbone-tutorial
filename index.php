@@ -24,8 +24,8 @@
       </form>
     </div>
 
- <!-- Templates -->
- <script id="contactTemplate" type="text/template">
+  <!-- Templates -->
+  <script id="contactTemplate" type="text/template">
     <img src="<%= photo %>" alt="<%= name %>" />
     <h1><%= name %><span><%= type %></span></h1>
     <div><%= address %></div>
@@ -36,6 +36,18 @@
     <button class="delete">Delete</button>
   </script>
 
+  <script id="contactEditTemplate" type="text/template">
+    <form action="#">
+        <input type="file" value="<%= photo %>" />
+        <input class="name" value="<%= name %>" />
+        <input id="type" type="hidden" value="<%= type %>" />
+        <input class="address" value="<%= address %>" />
+        <input class="tel" value="<%= tel %>" />
+        <input class="email" value="<%= email %>" />
+        <button class="save">Save</button>
+        <button class="cancel">Cancel</button>
+    </form>
+  </script>
 
     <script type="text/javascript" src="/js/vendor/jquery.min.js"></script>
     <script type="text/javascript" src="/js/vendor/underscore-min.js"></script>
