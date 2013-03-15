@@ -11,8 +11,9 @@
     <div id="contacts">
       <header>
         <div id="filter"><label>Show me:</label></div>
+        <a id="showForm" href="#">Add new contact</a>
       </header>
-      <form id="addContact" action="#">
+      <form id="addContact" class="hide" action="#">
           <label for="photo">photo:</label><input id="photo" type="file" />
           <label for="type">Type:</label><input id="type" />
           <label for="name">Name:</label><input id="name" />

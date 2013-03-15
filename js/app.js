@@ -95,7 +95,8 @@
       },
       events : {
         "change #filter select" : "setFilter",
-        "click #add": "addContact"
+        "click #add": "addContact",
+        "click #showForm": "showForm"
       },
       setFilter : function(e){
         this.filterType = e.currentTarget.value;
@@ -117,6 +118,7 @@
           contactsRouter.navigate("filter/"+filterType);
 
         }
+
       },
       /*addContact : function(e){
         e.preventDefault();
@@ -153,6 +155,9 @@
         }
         this.filterType = newModel.type.toLowerCase();
         this.filterByType();
+      },
+      showForm : function() {
+        this.$el.find("#addContact").slideToggle();
       }
 
 
