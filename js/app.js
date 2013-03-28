@@ -51,7 +51,11 @@
 
     var DirectoryView = Backbone.View.extend({
       el: $("#contacts"),
-
+      events : {
+        "change #filter select" : "setFilter",
+        "click #add": "addContact",
+        "click #showForm": "showForm"
+      },
       initialize: function () {
         this.collection = new Directory(contacts);
         this.render();
@@ -59,6 +63,7 @@
         this.on("change:filterType", this.filterByType, this);
         this.collection.on("reset", this.render, this);
         this.collection.on("add", this.renderContact, this);
+        this.collection.on("remove",this.removeContact, this)
       },
 
       render: function () {
@@ -93,11 +98,7 @@
           });
           return select;
       },
-      events : {
-        "change #filter select" : "setFilter",
-        "click #add": "addContact",
-        "click #showForm": "showForm"
-      },
+
       setFilter : function(e){
         this.filterType = e.currentTarget.value;
         this.trigger("change:filterType");
@@ -120,6 +121,39 @@
         }
 
       },
+      addContact: function(e){
+        e.preventDefault();
+        this.collection.reset(contacts, { silent: true });
+        var newModel = {};
+        $('#addContact').children('input').each(function(i, el){
+          if ($(el).val() != ""){
+           newModel[el.id] = $(el).val();
+          }
+        });
+        contacts.push(newModel);
+        this.collection.add(new Contact(newModel));
+        if (_.indexOf(this.getTypes(), newModel.type === -1)){
+          this.$el.find('#filter').find('select').remove().end().append(this.createSelect());
+        }
+        this.filterType = newModel.type.toLowerCase();
+        this.filterByType();
+        this.$el.find("#filter select").children("[value='"+this.filterType+"']").attr("selected", "selected");
+      },
+      removeContact: function (removedModel) {
+        var removed = removedModel.attributes;
+        if (removed.photo === "/img/placeholder.png") {
+          delete removed.photo;
+        }
+        _.each(contacts, function (contact) {
+          if (_.isEqual(contact, removed)) {
+            contacts.splice(_.indexOf(contacts, contact), 1);
+          }
+        });
+      },
+      showForm : function() {
+        this.$el.find("#addContact").slideToggle();
+      }
+
       /*addContact : function(e){
         e.preventDefault();
         var newModel ={};
@@ -138,32 +172,6 @@
         }
 
       }*/
-
-      addContact: function(e){
-        e.preventDefault();
-        this.collection.reset(contacts, { silent: true });
-        var newModel = {};
-        $('#addContact').children('input').each(function(i, el){
-          if ($(el).val() != ""){
-           newModel[el.id] = $(el).val();
-          }
-        });
-        contacts.push(newModel);
-        this.collection.add(new Contact(newModel));
-        if (_.indexOf(this.getTypes(), newModel.type === -1)){
-          this.$el.find('#filter').find('select').remove().end().append(this.createSelect());
-        }
-        this.filterType = newModel.type.toLowerCase();
-        this.filterByType();
-      },
-      showForm : function() {
-        this.$el.find("#addContact").slideToggle();
-      }
-
-
-
-
-
 
   });
 
