@@ -40,9 +40,9 @@
       events : {
         "click button.delete" : "deleteContact",
         "click button.edit"   : "editContact",
-        "change select.type"  : "addType",
-        "click button.save"   : "saveEdits",
-        "click button.cancel" : "cancelEdit"
+        //"change select.type"  : "addType",
+        //"click button.save"   : "saveEdits",
+        //"click button.cancel" : "cancelEdit"
       },
       deleteContact : function(){
         var removedType = this.model.get("type").toLowerCase();
@@ -57,10 +57,10 @@
         var newOpt = $("<option/>", {
           html: "<em>Add new...</em>",
           value: "addType"
-        }),
+        });
         this.select = directory.createSelect().addClass("type")
         .val(this.$el.find("#type").val()).append(newOpt)
-        .insertAfter(this.$el.find(".name"))
+        .insertAfter(this.$el.find(".name"));
       }
     });
 
